@@ -3,7 +3,11 @@ Unity clone of magic duel minigame from "Reksio i Czarodzieje" ["Rex and the Wiz
 I hope to understand minigame mechanics in order to reimplement it on the original game engine.
 
 ### What have I learnt so far here...
-* including audio clips,  
+* including audio clips,
+* basic animation,
+* basic AI,
+* timing things,
+* handling mouse input (escpecially tracing position),
 * ... (more incoming)
 
 ### Copyright notice
