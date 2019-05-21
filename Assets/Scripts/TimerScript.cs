@@ -39,7 +39,7 @@ public class TimerScript : MonoBehaviour
     public static int MakeTimer(int FixedUpdatesToPass)
     {
         int i;
-        for (i = 0; Timers.ContainsKey(i); i++);
+        for (i = Random.Range(0, int.MaxValue); Timers.ContainsKey(i); i++);
         Timers.Add(i, new TimerData(FixedUpdatesToPass));
         return i;
     }
@@ -47,17 +47,42 @@ public class TimerScript : MonoBehaviour
     public static int MakeTimer(float SecondsToPass)
     {
         int i;
-        for (i = 0; Timers.ContainsKey(i); i++) ;
+        for (i = Random.Range(0, int.MaxValue); Timers.ContainsKey(i); i++);
         Timers.Add(i, new TimerData(SecondsToPass));
         return i;
     }
 
+    public static float GetRemainingSeconds(int Identifier)
+    {
+        if (Timers.ContainsKey(Identifier)) {
+            if (Timers[Identifier].InSeconds) {
+                return Timers[Identifier].RemainingSeconds;
+            } else {
+                return Timers[Identifier].RemainingFixedUpdates * Time.fixedDeltaTime;
+            }
+        } else {
+            return float.NaN;
+        }
+    }
+
+    public static int GetRemainingFixedUpdates(int Identifier)
+    {
+        if (Timers.ContainsKey(Identifier)) {
+            if (Timers[Identifier].InSeconds) {
+                return (int)(Timers[Identifier].RemainingSeconds / Time.fixedDeltaTime);
+            } else {
+                return Timers[Identifier].RemainingFixedUpdates;
+            }
+        } else {
+            return -1;
+        }
+    }
     public static bool HasPassed(int Identifier)
     {
         if (Timers.ContainsKey(Identifier)) {
             return Timers[Identifier].Passed;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -67,21 +92,19 @@ public class TimerScript : MonoBehaviour
             Timers.Remove(Identifier);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
         Timers = new Dictionary<int, TimerData>();
     }
-
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         foreach (KeyValuePair<int, TimerData> Timer in Timers)
         {
             if (!Timer.Value.Passed) {
                 if (Timer.Value.InSeconds) {
-                    Timer.Value.RemainingSeconds -= Time.deltaTime;
+                    Timer.Value.RemainingSeconds -= Time.fixedDeltaTime;
                     if (Timer.Value.RemainingSeconds <= 0) {
                         Timer.Value.Passed = true;
                     }
