@@ -8,8 +8,9 @@ public class CounterScript
     private int Counter,
                 CounterMin,
                 CounterMax,
-                Increment;
-    private bool Looped;
+                Increment,
+                StartingValue;
+    private bool Looped = false;
 
     public CounterScript(int MinimalValue, int MaximalValue, int IncrementialValue, int InitialValue)
     {
@@ -17,6 +18,7 @@ public class CounterScript
         CounterMin = MinimalValue;
         CounterMax = MaximalValue;
         Increment = IncrementialValue;
+        StartingValue = InitialValue;
     }
 
     public CounterScript(int InitialValue, int LiminalValue, int IncrementialValue)
@@ -30,6 +32,7 @@ public class CounterScript
             CounterMax = InitialValue;
         }
         Increment = IncrementialValue;
+        StartingValue = InitialValue;
     }
 
     public int Get()
@@ -48,6 +51,12 @@ public class CounterScript
             }
         }
         return Temporary;
+    }
+
+    public void Reset()
+    {
+        Counter = StartingValue;
+        Looped = false;
     }
 
     public bool HasLooped()

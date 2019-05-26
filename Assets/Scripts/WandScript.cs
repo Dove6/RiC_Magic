@@ -30,6 +30,11 @@ public class WandScript : MonoBehaviour
     private AudioSource SoundSource;
 
     [SerializeField]
+    private ParticleSystem SparksSource;
+    [SerializeField]
+    private ParticleSystem SpellStepEmitter;
+
+    [SerializeField]
     private float CooldownTime = 0.5f;
     [SerializeField]
     private float LoadingTime = 3f;
@@ -41,6 +46,8 @@ public class WandScript : MonoBehaviour
 
     State WandState = State.empty;
     private Spell? LoadedSpell = null;
+    List<Vector2Int> Pattern;
+
     private SpriteRenderer RendererReference;
     private Transform TransformReference;
     private int RotationTimer,
@@ -48,7 +55,9 @@ public class WandScript : MonoBehaviour
                 LoadingTimer,
                 CooldownTimer,
                 AITracingTimer;
-    private CounterScript RotationCounter;
+    private CounterScript RotationCounter,
+                          PatternCounter,
+                          ParticleCounter;
     private Vector3 OriginalPosition;
     // Start is called before the first frame update
     void Start()
@@ -59,8 +68,11 @@ public class WandScript : MonoBehaviour
         SoundTimer = TimerScript.MakeTimer(0);
         CooldownTimer = TimerScript.MakeTimer(0f);
         RotationCounter = new CounterScript(0, 9, 1, (RendererReference.flipX ? 1 : 6));
+        PatternCounter = new CounterScript(0, 3, 1);
+        ParticleCounter = new CounterScript(0, 3, 1);
         OriginalPosition = TransformReference.position;
         TakenSpells = new Dictionary<Spell, int>();
+        Pattern = new List<Vector2Int>();
     }
 
     // Update is called once per frame
@@ -76,10 +88,23 @@ public class WandScript : MonoBehaviour
             }
             case State.tracing: {
                 if (CheckForTracingEnd()) {
+                    Pattern.Add(new Vector2Int((int)Input.mousePosition.x, (int)Input.mousePosition.y));
                     if (SpellRecognition()) {
                         StateTransition(State.loading);
                     } else {
                         StateTransition(State.empty);
+                    }
+                } else {
+                    if (PatternCounter.Get() == 0) {
+                        Pattern.Add(new Vector2Int((int)Input.mousePosition.x, (int)Input.mousePosition.y));
+                        if (SpellStepEmitter != null) {
+                            SpellStepEmitter.Emit(1);
+                        }
+                    }
+                    if (ParticleCounter.Get() == 0) {
+                        if (SparksSource != null) {
+                            SparksSource.Emit(1);
+                        }
                     }
                 }
                 break;
@@ -204,6 +229,18 @@ public class WandScript : MonoBehaviour
 
     private bool SpellRecognition()
     {
+        List<Vector2Int> ProcessedPattern = new List<Vector2Int>(Pattern);
+        print(ProcessedPattern);
+        if (SpellStepEmitter != null) {
+            ParticleSystem.EmitParams EmitParams = new ParticleSystem.EmitParams();
+            SpellStepEmitter.Clear();
+            ProcessedPattern.ForEach(delegate (Vector2Int Position) {
+                Vector2 WorldPosition = Camera.main.ScreenToWorldPoint(new Vector2(Position.x, Position.y));
+                EmitParams.position = new Vector3(WorldPosition.x, WorldPosition.y, -1f);
+                SpellStepEmitter.Emit(EmitParams, 1);
+                //print(EmitParams.position);
+            });
+        }
         return true;
     }
 
@@ -216,6 +253,9 @@ public class WandScript : MonoBehaviour
                 if (WandHolder == Holder.enemy) {
                     AITracingTimer = TimerScript.MakeTimer(AITracingTime);
                 }
+                PatternCounter.Reset();
+                ParticleCounter.Reset();
+                Pattern.Clear();
             } else if (PreviousState == State.tracing && CurrentState == State.empty) {
                 ;
             } else if (PreviousState == State.tracing && CurrentState == State.loading) {

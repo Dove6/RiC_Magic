@@ -1,0 +1,12 @@
+ARR\0 [4 bajty]
+szerokoœæ [1 bajt]
+wysokoœæ [1 bajt]
+typ danych [1 bajt]
+  0 - liczbowy ca³kowity
+  1 - liczbowy zmiennoprzecinkowy
+  2 - logiczny
+  3 - tekstowy (UTF-8) sta³ej d³ugoœci
+  4 - tekstowy (UTF-8) zmiennej d³ugoœci
+  ...
+rozmiar elementów w bajtach [1 bajt]
+  lub znak limituj¹cy sekwencjê dla typu danych 4
