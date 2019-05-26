@@ -8,6 +8,7 @@ I hope to understand minigame mechanics in order to reimplement it on the origin
 * basic AI,
 * timing things,
 * handling mouse input (escpecially tracing position),
+* unsing particle system,
 * ... (more incoming)
 
 ### Copyright notice
