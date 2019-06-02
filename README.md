@@ -8,7 +8,10 @@ I hope to understand minigame mechanics in order to reimplement it on the origin
 * basic AI,
 * timing things,
 * handling mouse input (escpecially tracing position),
-* unsing particle system,
+* using particle system,
+* creating custom editor inspector menu,
+* more advanced animation (Animator Controller),
+* using Sprite Editor in order to slice sprite,
 * ... (more incoming)
 
 ### Copyright notice
