@@ -17,6 +17,7 @@ public abstract class Character
     protected int cooldownTimer;
     protected float loadingTime;
     protected int loadingTimer;
+    protected Animator animator;
 
     protected Dictionary<Spell, int> takenSpells;
     protected State state = State.idle;
@@ -105,11 +106,13 @@ public class NonPlayableCharacter : Character
             state = desiredState;
             if (previousState == State.idle && state == State.tracing) {
                 tracingTimer = TimerScript.MakeTimer(tracingTime);
+                animator.SetFloat("wand_speed", 2f);
             } else if (previousState == State.tracing && state == State.idle) {
-                ;
+                animator.SetFloat("wand_speed", 1f);
             } else if (previousState == State.tracing && state == State.loading) {
                 loadingTimer = TimerScript.MakeTimer(loadingTime);
                 wand.PlaySingleSound(WandScript.SoundEffect.recognized);
+                animator.SetFloat("wand_speed", 1f);
             } else if (previousState == State.loading && state == State.loaded) {
                 TimerScript.Remove(loadingTimer);
                 TimerScript.Remove(cooldownTimer);
@@ -118,6 +121,8 @@ public class NonPlayableCharacter : Character
                 TimerScript.Remove(cooldownTimer);
                 cooldownTimer = TimerScript.MakeTimer(cooldownTime);
                 wand.PlaySingleSound(WandScript.SoundEffect.shot);
+                //animator.SetBool("wand_shot", true);
+                animator.SetTrigger("wand_shot");
             }
             wand.ChangeSpriteAndSoundEffect(state);
         }
@@ -138,6 +143,7 @@ public class NonPlayableCharacter : Character
         colliderList[protagonist].Add(character.GetComponent<Collider2D>());
         takenSpells = new Dictionary<Spell, int>();
         this.spellStepEmitter = spellStepEmitter;
+        animator = characterScript.GetComponent<Animator>();
 
         cooldownTimer = TimerScript.MakeTimer(0f);
     }
@@ -274,6 +280,7 @@ public class PlayableCharacter : Character
                 patternCounter.Reset();
                 particleCounter.Reset();
                 pattern.Clear();
+
             } else if (previousState == State.tracing && state == State.idle) {
                 ;
             } else if (previousState == State.tracing && state == State.loading) {
@@ -304,6 +311,7 @@ public class PlayableCharacter : Character
         colliderList[protagonist].Add(character.GetComponent<Collider2D>());
         takenSpells = new Dictionary<Spell, int>();
         this.spellStepEmitter = spellStepEmitter;
+        animator = characterScript.GetComponent<Animator>();
         this.sparksEmitter = sparksEmitter;
         pattern = new List<Vector2>();
 

@@ -1,0 +1,269 @@
+fileFormatVersion: 2
+guid: b7f62d09fbac69f409a884b33fdabd92
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 35858695358241373
+    second: goose_parts_body
+  - first:
+      213: 1564443914116846919
+    second: goose_parts_wing_right
+  - first:
+      213: 8371455407359115151
+    second: goose_parts_wing_left
+  - first:
+      213: -1768990401294139745
+    second: goose_parts_neck
+  - first:
+      213: -2592986366952931071
+    second: goose_parts_wrinkles
+  - first:
+      213: 9020219687474931830
+    second: goose_parts_eyes
+  - first:
+      213: 1281690086025009475
+    second: goose_parts_beak
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: goose_parts_body
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 409
+        width: 773
+        height: 615
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1ee5364f6176ba4cb66a06c9d7f8cc1
+      internalID: 35858695358241373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_parts_wing_right
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 503
+        width: 670
+        height: 521
+      alignment: 9
+      pivot: {x: 0.9791531, y: 0.42750734}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b00684ffd7a8f84a91fed6bf3b88307
+      internalID: 1564443914116846919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_parts_wing_left
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 28
+        width: 467
+        height: 381
+      alignment: 9
+      pivot: {x: 0.18324013, y: 0.91304165}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67203c52aba48074abc309ef7ad3ee4d
+      internalID: 8371455407359115151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_parts_neck
+      rect:
+        serializedVersion: 2
+        x: 1443
+        y: 292
+        width: 392
+        height: 732
+      alignment: 9
+      pivot: {x: 0.6686093, y: 0.009834248}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd2b95eb682a08e44b0686bbe7c31e32
+      internalID: -1768990401294139745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_parts_wrinkles
+      rect:
+        serializedVersion: 2
+        x: 1835
+        y: 991
+        width: 107
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8987c590677ddae42a54b89adde72ed7
+      internalID: -2592986366952931071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_parts_eyes
+      rect:
+        serializedVersion: 2
+        x: 1835
+        y: 931
+        width: 110
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e2496afbf8dcc84992816518940b567
+      internalID: 9020219687474931830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: goose_parts_beak
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 266
+        width: 248
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00b3d2e286401304eae5ec035f99b949
+      internalID: 1281690086025009475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: bd172d0b59748c249878313343ac970b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

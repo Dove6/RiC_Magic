@@ -19,35 +19,25 @@ public class CharacterScript : MonoBehaviour
     ParticleSystem spellStepEmitter;
     [SerializeField]
     ParticleSystem sparksEmitter;
-
-    private Animation AnimationReference;
+    [SerializeField]
+    WandScript wand;
 
     // Start is called before the first frame update
     void Start()
     {
-        AnimationReference = GetComponent<Animation>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (AnimationReference != null) {
-            if (!AnimationReference.isPlaying) {
-                AnimationReference.Play();
-            }
-        }
     }
 
     public void GetHurt()
     {
-        if (AnimationReference != null) {
-            AnimationReference.CrossFade("CharacterHurt");
-        }
     }
 
     private void Awake()
     {
-        WandScript wand = GetComponent<Transform>().GetChild(0).GetComponent<WandScript>();
         if (playable) {
             GameManagerScript.AppendCharacter(new PlayableCharacter(this, wand, protagonist, spellStepEmitter, sparksEmitter, cooldownTime,
                                                                     loadingTime));
@@ -68,7 +58,8 @@ public class CharacterEditor : Editor
                        tracingTime,
                        loadingTime,
                        spellStepEmitter,
-                       sparksEmitter;
+                       sparksEmitter,
+                       wand;
 
     private void OnEnable()
     {
@@ -79,6 +70,7 @@ public class CharacterEditor : Editor
         loadingTime = serializedObject.FindProperty("loadingTime");
         spellStepEmitter = serializedObject.FindProperty("spellStepEmitter");
         sparksEmitter = serializedObject.FindProperty("sparksEmitter");
+        wand = serializedObject.FindProperty("wand");
     }
 
     public override void OnInspectorGUI()
@@ -87,6 +79,8 @@ public class CharacterEditor : Editor
 
         playable.boolValue = EditorGUILayout.Toggle(new GUIContent("Playable"), playable.boolValue);
         protagonist.boolValue = EditorGUILayout.Toggle(new GUIContent("Protagonist"), protagonist.boolValue);
+        wand.objectReferenceValue = EditorGUILayout.ObjectField(new GUIContent("Wand"), wand.objectReferenceValue,
+                                                                typeof(WandScript), true);
         cooldownTime.floatValue = EditorGUILayout.FloatField(new GUIContent("Cooldown Time"), cooldownTime.floatValue);
         if (!playable.boolValue) {
             tracingTime.floatValue = EditorGUILayout.FloatField(new GUIContent("Tracing Time"), tracingTime.floatValue);
