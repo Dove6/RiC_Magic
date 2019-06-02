@@ -1,7 +1,22 @@
 fileFormatVersion: 2
-guid: 5e9fe6d133cac514fba2c093b8719a15
+guid: ea0377ba626a2874ba3ddda5de5780ba
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -1003185092308012128
+    second: fowl_wand_vanilla
+  - first:
+      213: -6051449203752686633
+    second: fowl_wand_trace_on
+  - first:
+      213: 6503858367006749575
+    second: fowl_wand_loading_0
+  - first:
+      213: 3294768651482219074
+    second: fowl_wand_loading_1
+  - first:
+      213: -2477017332024190611
+    second: fowl_wand_ready
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -69,13 +84,129 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fowl_wand_vanilla
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.04793423, y: 0.01521629}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cb421c60fe49bc48a5ceb905793342a
+      internalID: -1003185092308012128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fowl_wand_trace_on
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.04793423, y: 0.01521629}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94b0959631eaf2948b0c2af2a864e8d1
+      internalID: -6051449203752686633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fowl_wand_loading_0
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.04793423, y: 0.01521629}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 383f7ec8b60bce144a6fb74c1ba31be4
+      internalID: 6503858367006749575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fowl_wand_loading_1
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.04793423, y: 0.01521629}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75b5eb688aeee194dbafba1f90bae0cf
+      internalID: 3294768651482219074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fowl_wand_ready
+      rect:
+        serializedVersion: 2
+        x: 1132
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.04793423, y: 0.01521629}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf59aec91208f454f80819dd21148c45
+      internalID: -2477017332024190611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 94b72b35b3fb9e74eb33e608a41f8186
+    spriteID: a49eb2df11f767e4aaebb6c41c7c4ef3
     internalID: 0
     vertices: []
     indices: 

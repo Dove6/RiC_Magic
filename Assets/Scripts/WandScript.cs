@@ -8,12 +8,6 @@ public class WandScript : MonoBehaviour
     private SoundEffect? activeSoundEffect;
 
     [SerializeField]
-    private Sprite vanillaWand,
-                   tracingWand,
-                   loadingWand,
-                   loadedWand;
-
-    [SerializeField]
     private AudioClip tracingSound,
                       recognizedSound,
                       loadingSound,
@@ -28,22 +22,16 @@ public class WandScript : MonoBehaviour
     [SerializeField]
     private AudioSource soundSource;
     
-    private Transform wandHandle,
-                      transform;
+    private Transform transform;
     private SpriteRenderer spriteRenderer;
-    private int rotationTimer,
-                soundTimer;
-    private CounterScript rotationCounter;
+    private int soundTimer;
 
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         transform = GetComponent<Transform>();
-        rotationTimer = TimerScript.MakeTimer(20);
         soundTimer = TimerScript.MakeTimer(0f);
-        rotationCounter = new CounterScript(0, 9, 1, (spriteRenderer.flipX ? 1 : 6));
-        wandHandle = transform.GetChild(0);
         activeSoundEffect = null;
     }
 
@@ -51,33 +39,6 @@ public class WandScript : MonoBehaviour
     void FixedUpdate()
     {
         PlayLoopedSound();
-        
-        if (TimerScript.HasPassed(rotationTimer)) {
-            TimerScript.Remove(rotationTimer);
-            rotationTimer = TimerScript.MakeTimer(20);
-            transform.RotateAround(wandHandle.position, new Vector3(0, 0, 1), 5 * ((rotationCounter.Get() > 4) ? -1 : 1));
-        }
-    }
-
-    private Sprite EnumToSprite(State state)
-    {
-        switch (state) {
-            case State.idle: {
-                return vanillaWand;
-            }
-            case State.tracing: {
-                return tracingWand;
-            }
-            case State.loading: {
-                return loadingWand;
-            }
-            case State.loaded: {
-                return loadedWand;
-            }
-            default: {
-                return null;
-            }
-        }
     }
 
     private AudioClip EnumToAudioClip(SoundEffect soundEffect)
@@ -153,11 +114,6 @@ public class WandScript : MonoBehaviour
         }
     }
 
-    public void ChangeSprite(State state)
-    {
-        spriteRenderer.sprite = EnumToSprite(state);
-    }
-
     public void ChangeSoundEffect(State state)
     {
         activeSoundEffect = StateToSoundEffect(state);
@@ -166,12 +122,6 @@ public class WandScript : MonoBehaviour
     public void ChangeSoundEffect(SoundEffect? soundEffect)
     {
         activeSoundEffect = soundEffect;
-    }
-
-    public void ChangeSpriteAndSoundEffect(State state)
-    {
-        spriteRenderer.sprite = EnumToSprite(state);
-        activeSoundEffect = StateToSoundEffect(state);
     }
 
     public void PlaySingleSound(SoundEffect soundEffect)

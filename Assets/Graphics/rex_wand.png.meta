@@ -1,7 +1,22 @@
 fileFormatVersion: 2
-guid: 67cef79112b33ec4ebb4ae87622dd7c8
+guid: 9551bfb7958ce9f4da0c8f113c345228
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 1749760094912415306
+    second: rex_wand_vanilla
+  - first:
+      213: -7159875797887326103
+    second: rex_wand_trace_on
+  - first:
+      213: -9211554636138456747
+    second: rex_wand_loading_0
+  - first:
+      213: 7531980610623787618
+    second: rex_wand_loading_1
+  - first:
+      213: -4599333698397191975
+    second: rex_wand_ready
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -69,13 +84,129 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: rex_wand_vanilla
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.05828462, y: 0.01418647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3cdf7aa692091f4f9397e60b51ad863
+      internalID: 1749760094912415306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rex_wand_trace_on
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.05828462, y: 0.01418647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6444f4a9f8cb41f4e983ee3ec294e1ed
+      internalID: -7159875797887326103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rex_wand_loading_0
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.05828462, y: 0.01418647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35836a10552fbf94db8493ab7cc84a56
+      internalID: -9211554636138456747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rex_wand_loading_1
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.05828462, y: 0.01418647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b48338e0281f02d43ad0a97598b783fd
+      internalID: 7531980610623787618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rex_wand_ready
+      rect:
+        serializedVersion: 2
+        x: 1132
+        y: 306
+        width: 283
+        height: 718
+      alignment: 9
+      pivot: {x: 0.05828462, y: 0.01418647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 837d37433fd6a1c42bc931564b023152
+      internalID: -4599333698397191975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8c959b542b61dc541a567ed90e04628c
+    spriteID: 3cbb8a58a949dc546b3c474be3b8924c
     internalID: 0
     vertices: []
     indices: 

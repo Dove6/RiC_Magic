@@ -7,9 +7,9 @@ public enum Spell { pudding, sleep, flies, frog, whirls, darkness };
 
 public abstract class Character
 {
-    protected static Dictionary<bool, List<Collider2D>> colliderList = new Dictionary<bool, List<Collider2D>>();
+    protected static Dictionary<bool, List<Rigidbody2D>> rigidbodyList = new Dictionary<bool, List<Rigidbody2D>>();
     
-    protected bool protagonist;
+    public bool protagonist { get; protected set; }
     protected CharacterScript character;
     protected WandScript wand;
     protected ParticleSystem spellStepEmitter;
@@ -18,6 +18,8 @@ public abstract class Character
     protected float loadingTime;
     protected int loadingTimer;
     protected Animator animator;
+    protected AudioClip hurtSound;
+    protected AudioSource soundSource;
 
     protected Dictionary<Spell, int> takenSpells;
     protected State state = State.idle;
@@ -30,6 +32,12 @@ public abstract class Character
     protected abstract bool RecognizeSpell();
     public abstract void Update();
     protected abstract void AlterState(State desiredState);
+
+    public void GetHurt()
+    {
+        animator.SetTrigger("hurt");
+        soundSource.PlayOneShot(hurtSound);
+    }
 }
 
 public class NonPlayableCharacter : Character
@@ -61,7 +69,7 @@ public class NonPlayableCharacter : Character
     }
     public override void Update()
     {
-        GameManagerScript.print((protagonist ? "protagonist " : "antagonist ") + state.ToString());
+        //GameManagerScript.print((protagonist ? "protagonist " : "antagonist ") + state.ToString());
         switch (state) {
             case State.idle: {
                 if (CheckForTracingStart()) {
@@ -91,8 +99,8 @@ public class NonPlayableCharacter : Character
             }
             case State.loaded: {
                 if (CheckForShot()) {
-                    //CalculateShot(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
                     //take first enemy from list and harm it
+                    GameManagerScript.FindFirstCharacter(!protagonist).GetHurt();
                     AlterState(State.idle);
                 }
                 break;
@@ -107,28 +115,33 @@ public class NonPlayableCharacter : Character
             if (previousState == State.idle && state == State.tracing) {
                 tracingTimer = TimerScript.MakeTimer(tracingTime);
                 animator.SetFloat("wand_speed", 2f);
+                animator.SetBool("wand_tracing", true);
             } else if (previousState == State.tracing && state == State.idle) {
                 animator.SetFloat("wand_speed", 1f);
+                animator.SetBool("wand_tracing", false);
             } else if (previousState == State.tracing && state == State.loading) {
                 loadingTimer = TimerScript.MakeTimer(loadingTime);
                 wand.PlaySingleSound(WandScript.SoundEffect.recognized);
                 animator.SetFloat("wand_speed", 1f);
+                animator.SetBool("wand_tracing", false);
+                animator.SetBool("wand_loading", true);
             } else if (previousState == State.loading && state == State.loaded) {
                 TimerScript.Remove(loadingTimer);
                 TimerScript.Remove(cooldownTimer);
                 cooldownTimer = TimerScript.MakeTimer(cooldownTime);
+                animator.SetBool("wand_loading", false);
             } else if (previousState == State.loaded && state == State.idle) {
                 TimerScript.Remove(cooldownTimer);
                 cooldownTimer = TimerScript.MakeTimer(cooldownTime);
                 wand.PlaySingleSound(WandScript.SoundEffect.shot);
-                //animator.SetBool("wand_shot", true);
                 animator.SetTrigger("wand_shot");
             }
-            wand.ChangeSpriteAndSoundEffect(state);
+            wand.ChangeSoundEffect(state);
         }
     }
 
-    public NonPlayableCharacter(CharacterScript characterScript, WandScript wandScript, bool protagonist, ParticleSystem spellStepEmitter, float cooldownTime, float tracingTime, float loadingTime)
+    public NonPlayableCharacter(CharacterScript characterScript, WandScript wandScript, bool protagonist, ParticleSystem spellStepEmitter,
+                                float cooldownTime, float tracingTime, float loadingTime, AudioClip hurtSound, AudioSource soundSource)
     {
         character = characterScript;
         wand = wandScript;
@@ -137,13 +150,15 @@ public class NonPlayableCharacter : Character
         this.tracingTime = tracingTime;
         this.loadingTime = loadingTime;
 
-        if (!colliderList.ContainsKey(protagonist)) {
-            colliderList.Add(protagonist, new List<Collider2D>());
+        if (!rigidbodyList.ContainsKey(protagonist)) {
+            rigidbodyList.Add(protagonist, new List<Rigidbody2D>());
         }
-        colliderList[protagonist].Add(character.GetComponent<Collider2D>());
+        rigidbodyList[protagonist].Add(character.GetComponent<Rigidbody2D>());
         takenSpells = new Dictionary<Spell, int>();
         this.spellStepEmitter = spellStepEmitter;
         animator = characterScript.GetComponent<Animator>();
+        this.hurtSound = hurtSound;
+        this.soundSource = soundSource;
 
         cooldownTimer = TimerScript.MakeTimer(0f);
     }
@@ -178,12 +193,12 @@ public class PlayableCharacter : Character
     {
         Ray ClickRay = Camera.main.ScreenPointToRay(MousePosition);
         RaycastHit2D ClickHit = Physics2D.Raycast(ClickRay.origin, ClickRay.direction);
-        //print(ClickHit.collider);
-        if (colliderList[!protagonist].Contains(ClickHit.collider)) {
-            //print("Bingo");
-            //EnemyScript.GetHurt();
+        //print(ClickHit.rigidbody);
+        if (rigidbodyList[!protagonist].Contains(ClickHit.rigidbody)) {
+            MonoBehaviour.print("Bingo");
+            ClickHit.rigidbody.GetComponent<CharacterScript>().character.GetHurt();
         } else {
-            //print("Fail");
+            MonoBehaviour.print("Fail");
         }
     }
     protected override bool RecognizeSpell()
@@ -280,24 +295,33 @@ public class PlayableCharacter : Character
                 patternCounter.Reset();
                 particleCounter.Reset();
                 pattern.Clear();
-
+                animator.SetFloat("wand_speed", 2f);
+                animator.SetBool("wand_tracing", true);
             } else if (previousState == State.tracing && state == State.idle) {
-                ;
+                animator.SetFloat("wand_speed", 1f);
+                animator.SetBool("wand_tracing", false);
             } else if (previousState == State.tracing && state == State.loading) {
                 loadingTimer = TimerScript.MakeTimer(loadingTime);
                 wand.PlaySingleSound(WandScript.SoundEffect.recognized);
+                animator.SetFloat("wand_speed", 1f);
+                animator.SetBool("wand_loading", true);
+                animator.SetBool("wand_tracing", false);
             } else if (previousState == State.loading && state == State.loaded) {
                 TimerScript.Remove(loadingTimer);
+                animator.SetBool("wand_loading", false);
             } else if (previousState == State.loaded && state == State.idle) {
                 TimerScript.Remove(cooldownTimer);
                 cooldownTimer = TimerScript.MakeTimer(cooldownTime);
                 wand.PlaySingleSound(WandScript.SoundEffect.shot);
+                animator.SetTrigger("wand_shot");
             }
-            wand.ChangeSpriteAndSoundEffect(state);
+            wand.ChangeSoundEffect(state);
         }
     }
 
-    public PlayableCharacter(CharacterScript characterScript, WandScript wandScript, bool protagonist, ParticleSystem spellStepEmitter, ParticleSystem sparksEmitter, float cooldownTime, float loadingTime)
+    public PlayableCharacter(CharacterScript characterScript, WandScript wandScript, bool protagonist, ParticleSystem spellStepEmitter,
+                             ParticleSystem sparksEmitter, float cooldownTime, float loadingTime, AudioClip hurtSound,
+                             AudioSource soundSource)
     {
         character = characterScript;
         wand = wandScript;
@@ -305,15 +329,17 @@ public class PlayableCharacter : Character
         this.cooldownTime = cooldownTime;
         this.loadingTime = loadingTime;
 
-        if (!colliderList.ContainsKey(protagonist)) {
-            colliderList.Add(protagonist, new List<Collider2D>());
+        if (!rigidbodyList.ContainsKey(protagonist)) {
+            rigidbodyList.Add(protagonist, new List<Rigidbody2D>());
         }
-        colliderList[protagonist].Add(character.GetComponent<Collider2D>());
+        rigidbodyList[protagonist].Add(character.GetComponent<Rigidbody2D>());
         takenSpells = new Dictionary<Spell, int>();
         this.spellStepEmitter = spellStepEmitter;
         animator = characterScript.GetComponent<Animator>();
         this.sparksEmitter = sparksEmitter;
         pattern = new List<Vector2>();
+        this.hurtSound = hurtSound;
+        this.soundSource = soundSource;
 
         cooldownTimer = TimerScript.MakeTimer(0f);
         patternCounter = new CounterScript(0, 3, 1);

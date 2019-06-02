@@ -21,6 +21,12 @@ public class CharacterScript : MonoBehaviour
     ParticleSystem sparksEmitter;
     [SerializeField]
     WandScript wand;
+    [SerializeField]
+    private AudioClip hurtSound;
+    [SerializeField]
+    private AudioSource soundSource;
+
+    public Character character { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -39,15 +45,17 @@ public class CharacterScript : MonoBehaviour
     private void Awake()
     {
         if (playable) {
-            GameManagerScript.AppendCharacter(new PlayableCharacter(this, wand, protagonist, spellStepEmitter, sparksEmitter, cooldownTime,
-                                                                    loadingTime));
+            character = new PlayableCharacter(this, wand, protagonist, spellStepEmitter, sparksEmitter, cooldownTime, loadingTime,
+                                              hurtSound, soundSource);
         } else {
-            GameManagerScript.AppendCharacter(new NonPlayableCharacter(this, wand, protagonist, spellStepEmitter, cooldownTime, tracingTime,
-                                                                       loadingTime));
+            character = new NonPlayableCharacter(this, wand, protagonist, spellStepEmitter, cooldownTime, tracingTime, loadingTime,
+                                                 hurtSound, soundSource);
         }
+        GameManagerScript.AppendCharacter(character);
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor (typeof(CharacterScript))]
 [CanEditMultipleObjects]
 public class CharacterEditor : Editor
@@ -59,7 +67,9 @@ public class CharacterEditor : Editor
                        loadingTime,
                        spellStepEmitter,
                        sparksEmitter,
-                       wand;
+                       wand,
+                       hurtSound,
+                       soundSource;
 
     private void OnEnable()
     {
@@ -71,6 +81,8 @@ public class CharacterEditor : Editor
         spellStepEmitter = serializedObject.FindProperty("spellStepEmitter");
         sparksEmitter = serializedObject.FindProperty("sparksEmitter");
         wand = serializedObject.FindProperty("wand");
+        hurtSound = serializedObject.FindProperty("hurtSound");
+        soundSource = serializedObject.FindProperty("soundSource");
     }
 
     public override void OnInspectorGUI()
@@ -94,7 +106,12 @@ public class CharacterEditor : Editor
                                                                              sparksEmitter.objectReferenceValue,
                                                                              typeof(ParticleSystem), true);
         }
+        hurtSound.objectReferenceValue = EditorGUILayout.ObjectField(new GUIContent("Hurt Sound"), hurtSound.objectReferenceValue,
+                                                                     typeof(AudioClip), true);
+        soundSource.objectReferenceValue = EditorGUILayout.ObjectField(new GUIContent("Sound Source"), soundSource.objectReferenceValue,
+                                                                       typeof(AudioSource), true);
 
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManagerScript : MonoBehaviour
 {
-    private static List<Character> characters = new List<Character>();
+    public static List<Character> characters = new List<Character>();
 
     // Start is called before the first frame update
     void Start()
@@ -30,5 +30,10 @@ public class GameManagerScript : MonoBehaviour
         if (character != null) {
             characters.Add(character);
         }
+    }
+
+    public static Character FindFirstCharacter(bool protagonist)
+    {
+        return characters.Find(x => x.protagonist == protagonist);
     }
 }

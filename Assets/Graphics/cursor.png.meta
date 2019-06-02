@@ -1,28 +1,19 @@
 fileFormatVersion: 2
-guid: eeabb40ce4f1fc44091d3ff06fa9267f
+guid: c525a63c6c0396946a8b2ca4c1d5309e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9054315811396565636
-    second: rex_head
+      213: 6554736390298987251
+    second: cursor
   - first:
-      213: -1123822736572215162
-    second: rex_body
+      213: -577436947000661451
+    second: cursor_active
   - first:
-      213: 3792529031679650329
-    second: rex_hand_left
+      213: 8344927208098896504
+    second: cursor_magic
   - first:
-      213: -3805815398589768652
-    second: rex_hand_right
-  - first:
-      213: -2087347407551361058
-    second: rex_mouth
-  - first:
-      213: 3564577158348586869
-    second: rex_eyebrow
-  - first:
-      213: 484932426586386792
-    second: rex_eye
+      213: -6306539692163049295
+    second: cursor_door
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -105,148 +96,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rex_head
+      name: cursor
       rect:
         serializedVersion: 2
         x: 0
-        y: 765
-        width: 974
-        height: 1283
-      alignment: 9
-      pivot: {x: 0.6213903, y: 0.012396844}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b63e2367b429ced48b5774ea4f49f8e9
-      internalID: -9054315811396565636
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rex_body
-      rect:
-        serializedVersion: 2
-        x: 974
-        y: 785
-        width: 597
-        height: 1263
-      alignment: 9
-      pivot: {x: 0.51838434, y: 0.024951974}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 08287c103852b6f4c97f96aa6efaddb5
-      internalID: -1123822736572215162
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rex_hand_left
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 384
-        width: 791
-        height: 381
-      alignment: 9
-      pivot: {x: 0.89775825, y: 0.98971355}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c6c5b32c4fc43549b919a020b199031
-      internalID: 3792529031679650329
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rex_hand_right
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 80
-        width: 559
-        height: 304
-      alignment: 9
-      pivot: {x: 0.12695594, y: 0.54813755}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3feb6ee02f19e364e86580588d9cd5e1
-      internalID: -3805815398589768652
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rex_mouth
-      rect:
-        serializedVersion: 2
-        x: 1571
-        y: 1953
-        width: 226
-        height: 95
-      alignment: 9
-      pivot: {x: 0.014365948, y: 0.57702124}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 645bfa17a6694bd4eb2591841e91a1fe
-      internalID: -2087347407551361058
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: rex_eyebrow
-      rect:
-        serializedVersion: 2
-        x: 1571
-        y: 1876
+        y: 147
         width: 106
-        height: 77
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 109
+      alignment: 9
+      pivot: {x: 0.02975117, y: 0.9740883}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51868f6681a393a40a28315d1ce32daf
-      internalID: 3564577158348586869
+      spriteID: f5e4cd8a6b97e204d8d1dcb5520886d1
+      internalID: 6554736390298987251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rex_eye
+      name: cursor_active
       rect:
         serializedVersion: 2
-        x: 1571
-        y: 1768
-        width: 79
-        height: 108
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 106
+        y: 147
+        width: 106
+        height: 109
+      alignment: 9
+      pivot: {x: 0.034065392, y: 0.9656974}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b4b98b62c7f99b4081313e3a2359dd7
-      internalID: 484932426586386792
+      spriteID: 21b169727f5a79b42b52947de00f7548
+      internalID: -577436947000661451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cursor_magic
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 29
+        width: 115
+        height: 118
+      alignment: 9
+      pivot: {x: 0.070529856, y: 0.91855156}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7370ff42365ccd4088ea9aaa1dd4bcd
+      internalID: 8344927208098896504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cursor_door
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 54
+        width: 120
+        height: 93
+      alignment: 9
+      pivot: {x: 0.019828541, y: 0.89829904}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 747192ac750d47e498a9d270c94575bc
+      internalID: -6306539692163049295
       vertices: []
       indices: 
       edges: []
@@ -254,7 +182,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a15152a212081374ba33401163db23f4
+    spriteID: c3ef643fef9f1ab499967d1c7b75084f
     internalID: 0
     vertices: []
     indices: 
