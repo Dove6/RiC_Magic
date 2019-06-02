@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 507950082316414087}
   - component: {fileID: 507950082316414080}
+  - component: {fileID: 3464561776109022088}
   m_Layer: 0
   m_Name: CharacterSpritePrefab
   m_TagString: Untagged
@@ -80,6 +81,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3464561776109022088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507950082316414081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e6d2e54139c854ca1e5aa302ecdef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1442749358880403237
 PrefabInstance:
   m_ObjectHideFlags: 0

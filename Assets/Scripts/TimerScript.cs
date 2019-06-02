@@ -34,7 +34,7 @@ public class TimerData
 
 public class TimerScript : MonoBehaviour
 {
-    private static Dictionary<int, TimerData> Timers;
+    private static Dictionary<int, TimerData> Timers = new Dictionary<int, TimerData>();
 
     public static int MakeTimer(int FixedUpdatesToPass)
     {
@@ -91,11 +91,6 @@ public class TimerScript : MonoBehaviour
         if (Timers.ContainsKey(Identifier)) {
             Timers.Remove(Identifier);
         }
-    }
-    
-    void Awake()
-    {
-        Timers = new Dictionary<int, TimerData>();
     }
     
     void FixedUpdate()

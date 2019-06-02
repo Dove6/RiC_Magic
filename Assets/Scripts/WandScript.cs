@@ -4,288 +4,178 @@ using UnityEngine;
 
 public class WandScript : MonoBehaviour
 {
-    public enum State {empty, tracing, loading, loaded};
-    public enum Holder {enemy, player};
-    public enum Spell {pudding, sleep, flies, frog, whirls, darkness};
-
-    private Dictionary<Spell, int> TakenSpells;
+    public enum SoundEffect { tracing, recognized, loading, loaded, shot };
+    private SoundEffect? activeSoundEffect;
 
     [SerializeField]
-    private Holder WandHolder = Holder.enemy;
+    private Sprite vanillaWand,
+                   tracingWand,
+                   loadingWand,
+                   loadedWand;
 
     [SerializeField]
-    private Sprite VanillaWand,
-                   TracingWand,
-                   LoadingWand,
-                   LoadedWand;
+    private AudioClip tracingSound,
+                      recognizedSound,
+                      loadingSound,
+                      loadedSound,
+                      shotSound;
 
     [SerializeField]
-    private AudioClip TracingSound,
-                      RecognitionSound,
-                      LoadingSound,
-                      LoadedSound,
-                      ShootingSound;
+    private float tracingSoundLength = 0.2f,
+                  loadingSoundLength = 0.8f,
+                  loadedSoundLength = 0.8f;
 
     [SerializeField]
-    private AudioSource SoundSource;
+    private AudioSource soundSource;
+    
+    private Transform wandHandle,
+                      transform;
+    private SpriteRenderer spriteRenderer;
+    private int rotationTimer,
+                soundTimer;
+    private CounterScript rotationCounter;
 
-    [SerializeField]
-    private ParticleSystem SparksSource;
-    [SerializeField]
-    private ParticleSystem SpellStepEmitter;
-
-    [SerializeField]
-    private float CooldownTime = 0.5f;
-    [SerializeField]
-    private float LoadingTime = 3f;
-
-    private readonly float AITracingTime = 4f;
-    private readonly float TracingSoundTime = 0.2f;
-    private readonly float LoadingSoundTime = 0.8f;
-    private readonly float LoadedSoundTime = 0.8f;
-
-    State WandState = State.empty;
-    private Spell? LoadedSpell = null;
-    List<Vector2Int> Pattern;
-
-    private SpriteRenderer RendererReference;
-    private Transform TransformReference;
-    private int RotationTimer,
-                SoundTimer,
-                LoadingTimer,
-                CooldownTimer,
-                AITracingTimer;
-    private CounterScript RotationCounter,
-                          PatternCounter,
-                          ParticleCounter;
-    private Vector3 OriginalPosition;
     // Start is called before the first frame update
     void Start()
     {
-        RendererReference = GetComponent<SpriteRenderer>();
-        TransformReference = GetComponent<Transform>();
-        RotationTimer = TimerScript.MakeTimer(20);
-        SoundTimer = TimerScript.MakeTimer(0);
-        CooldownTimer = TimerScript.MakeTimer(0f);
-        RotationCounter = new CounterScript(0, 9, 1, (RendererReference.flipX ? 1 : 6));
-        PatternCounter = new CounterScript(0, 3, 1);
-        ParticleCounter = new CounterScript(0, 3, 1);
-        OriginalPosition = TransformReference.position;
-        TakenSpells = new Dictionary<Spell, int>();
-        Pattern = new List<Vector2Int>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        transform = GetComponent<Transform>();
+        rotationTimer = TimerScript.MakeTimer(20);
+        soundTimer = TimerScript.MakeTimer(0f);
+        rotationCounter = new CounterScript(0, 9, 1, (spriteRenderer.flipX ? 1 : 6));
+        wandHandle = transform.GetChild(0);
+        activeSoundEffect = null;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //print(WandHolder + ": " + WandState + ", " + TransformReference.position);
-        switch (WandState) {
-            case State.empty: {
-                if (CheckForTracingStart()) {
-                    StateTransition(State.tracing);
-                }
-                break;
+        PlayLoopedSound();
+        
+        if (TimerScript.HasPassed(rotationTimer)) {
+            TimerScript.Remove(rotationTimer);
+            rotationTimer = TimerScript.MakeTimer(20);
+            transform.RotateAround(wandHandle.position, new Vector3(0, 0, 1), 5 * ((rotationCounter.Get() > 4) ? -1 : 1));
+        }
+    }
+
+    private Sprite EnumToSprite(State state)
+    {
+        switch (state) {
+            case State.idle: {
+                return vanillaWand;
             }
             case State.tracing: {
-                if (CheckForTracingEnd()) {
-                    Pattern.Add(new Vector2Int((int)Input.mousePosition.x, (int)Input.mousePosition.y));
-                    if (SpellRecognition()) {
-                        StateTransition(State.loading);
-                    } else {
-                        StateTransition(State.empty);
-                    }
-                } else {
-                    if (PatternCounter.Get() == 0) {
-                        Pattern.Add(new Vector2Int((int)Input.mousePosition.x, (int)Input.mousePosition.y));
-                        if (SpellStepEmitter != null) {
-                            SpellStepEmitter.Emit(1);
-                        }
-                    }
-                    if (ParticleCounter.Get() == 0) {
-                        if (SparksSource != null) {
-                            SparksSource.Emit(1);
-                        }
-                    }
-                }
-                break;
+                return tracingWand;
             }
-            case State.loading:
-            {
-                if (TimerScript.HasPassed(LoadingTimer))
-                {
-                    StateTransition(State.loaded);
-                }
-                break;
+            case State.loading: {
+                return loadingWand;
             }
             case State.loaded: {
-                if (CheckForShot()) {
-                    ShotCalculation();
-                    StateTransition(State.empty);
-                }
-                break;
+                return loadedWand;
             }
-        }
-
-        SoundsPlayer();
-        
-        if (TimerScript.HasPassed(RotationTimer)) {
-            TimerScript.Remove(RotationTimer);
-            RotationTimer = TimerScript.MakeTimer(20);
-            TransformReference.RotateAround(TransformReference.position - 
-                                            new Vector3(RendererReference.bounds.size.x / 2f, RendererReference.bounds.size.y / 2f, 0),
-                                            new Vector3(1, 1, 1), 5 * ((RotationCounter.Get() > 4) ? -1 : 1));
-        }
-
-        if (TransformReference.rotation.eulerAngles.z > -5 && TransformReference.rotation.eulerAngles.z < 5) {
-            TransformReference.position = OriginalPosition;
-        }
-    }
-
-    private bool CheckForTracingStart()
-    {
-        if (TimerScript.HasPassed(CooldownTimer)) {
-            switch (WandHolder) {
-                case Holder.player: {
-                    return Input.GetMouseButton(0);
-                }
-                case Holder.enemy: {
-                    return true;
-                }
-                default: { //for future use?
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-    }
-
-    private bool CheckForTracingEnd()
-    {
-        switch (WandHolder) {
-            case Holder.player: {
-                return !Input.GetMouseButton(0);
-            }
-            case Holder.enemy: {
-                if (TimerScript.HasPassed(AITracingTimer)) {
-                    TimerScript.Remove(AITracingTimer);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            default: { //for future use?
-                return false;
+            default: {
+                return null;
             }
         }
     }
 
-    private bool CheckForShot()
+    private AudioClip EnumToAudioClip(SoundEffect soundEffect)
     {
-        switch (WandHolder) {
-            case Holder.player: {
-                return Input.GetMouseButton(0);
+        switch (soundEffect) {
+            case SoundEffect.tracing: {
+                return tracingSound;
             }
-            case Holder.enemy: {
-                return true;
+            case SoundEffect.recognized: {
+                return recognizedSound;
             }
-            default: { //for future use?
-                return false;
+            case SoundEffect.loading: {
+                return loadingSound;
+            }
+            case SoundEffect.loaded: {
+                return loadedSound;
+            }
+            case SoundEffect.shot: {
+                return shotSound;
+            }
+            default: {
+                return null;
             }
         }
     }
 
-    private void ShotCalculation()
+    private float EnumToSoundLength(SoundEffect soundEffect)
     {
-        ;
-    }
-
-    private void SoundsPlayer()
-    {
-        if (TimerScript.HasPassed(SoundTimer)) {
-            TimerScript.Remove(SoundTimer);
-            switch (WandState) {
-                case State.empty: {
-                    break;
-                }
-                case State.tracing: {
-                    SoundTimer = TimerScript.MakeTimer(TracingSoundTime);
-                    SoundSource.PlayOneShot(TracingSound);
-                    break;
-                }
-                case State.loading: {
-                    SoundTimer = TimerScript.MakeTimer(LoadingSoundTime);
-                    SoundSource.PlayOneShot(LoadingSound);
-                    break;
-                }
-                case State.loaded: {
-                    SoundTimer = TimerScript.MakeTimer(LoadedSoundTime);
-                    SoundSource.PlayOneShot(LoadedSound);
-                    break;
-                }
+        switch (soundEffect) {
+            case SoundEffect.tracing: {
+                return tracingSoundLength;
+            }
+            case SoundEffect.loading: {
+                return loadingSoundLength;
+            }
+            case SoundEffect.loaded: {
+                return loadedSoundLength;
+            }
+            default: {
+                return 0f;
             }
         }
     }
 
-    private bool SpellRecognition()
+    private SoundEffect? StateToSoundEffect(State state)
     {
-        List<Vector2Int> ProcessedPattern = new List<Vector2Int>(Pattern);
-        print(ProcessedPattern);
-        if (SpellStepEmitter != null) {
-            ParticleSystem.EmitParams EmitParams = new ParticleSystem.EmitParams();
-            SpellStepEmitter.Clear();
-            ProcessedPattern.ForEach(delegate (Vector2Int Position) {
-                Vector2 WorldPosition = Camera.main.ScreenToWorldPoint(new Vector2(Position.x, Position.y));
-                EmitParams.position = new Vector3(WorldPosition.x, WorldPosition.y, -1f);
-                SpellStepEmitter.Emit(EmitParams, 1);
-                //print(EmitParams.position);
-            });
+        switch (state) {
+            case State.tracing: {
+                return SoundEffect.tracing;
+            }
+            case State.loading: {
+                return SoundEffect.loading;
+            }
+            case State.loaded: {
+                return SoundEffect.loaded;
+            }
+            default: {
+                return null;
+            }
         }
-        return true;
     }
 
-    private void StateTransition(State CurrentState)
+    private void PlayLoopedSound()
     {
-        State PreviousState = WandState;
-        if (PreviousState != CurrentState) {
-            WandState = CurrentState;
-            if (PreviousState == State.empty && CurrentState == State.tracing) {
-                if (WandHolder == Holder.enemy) {
-                    AITracingTimer = TimerScript.MakeTimer(AITracingTime);
-                }
-                PatternCounter.Reset();
-                ParticleCounter.Reset();
-                Pattern.Clear();
-            } else if (PreviousState == State.tracing && CurrentState == State.empty) {
-                ;
-            } else if (PreviousState == State.tracing && CurrentState == State.loading) {
-                LoadingTimer = TimerScript.MakeTimer(LoadingTime);
-                SoundSource.PlayOneShot(RecognitionSound);
-            } else if (PreviousState == State.loading && CurrentState == State.loaded) {
-                TimerScript.Remove(LoadingTimer);
-            } else if (PreviousState == State.loaded && CurrentState == State.empty) {
-                SoundSource.PlayOneShot(ShootingSound);
-                TimerScript.Remove(CooldownTimer);
-                CooldownTimer = TimerScript.MakeTimer(CooldownTime);
-            }
-            switch (CurrentState) {
-                case State.empty: {
-                    RendererReference.sprite = VanillaWand;
-                    break;
-                }
-                case State.tracing: {
-                    RendererReference.sprite = TracingWand;
-                    break;
-                }
-                case State.loading: {
-                    RendererReference.sprite = LoadingWand;
-                    break;
-                }
-                case State.loaded: {
-                    RendererReference.sprite = LoadedWand;
-                    break;
-                }
+        if (TimerScript.HasPassed(soundTimer)) {
+            TimerScript.Remove(soundTimer);
+
+            if (activeSoundEffect != null) {
+                AudioClip loopedClip = EnumToAudioClip(activeSoundEffect.Value);
+                soundTimer = TimerScript.MakeTimer(EnumToSoundLength(activeSoundEffect.Value));
+                soundSource.PlayOneShot(loopedClip);
             }
         }
+    }
+
+    public void ChangeSprite(State state)
+    {
+        spriteRenderer.sprite = EnumToSprite(state);
+    }
+
+    public void ChangeSoundEffect(State state)
+    {
+        activeSoundEffect = StateToSoundEffect(state);
+    }
+
+    public void ChangeSoundEffect(SoundEffect? soundEffect)
+    {
+        activeSoundEffect = soundEffect;
+    }
+
+    public void ChangeSpriteAndSoundEffect(State state)
+    {
+        spriteRenderer.sprite = EnumToSprite(state);
+        activeSoundEffect = StateToSoundEffect(state);
+    }
+
+    public void PlaySingleSound(SoundEffect soundEffect)
+    {
+        soundSource.PlayOneShot(EnumToAudioClip(soundEffect));
     }
 }
