@@ -5,62 +5,76 @@ using UnityEngine;
 //inclusive range [CounterMin; CounterMax]
 public class CounterScript
 {
-    private int Counter,
-                CounterMin,
-                CounterMax,
-                Increment,
-                StartingValue;
-    private bool Looped = false;
+    private int counter,
+                counterMin,
+                counterMax,
+                increment,
+                startingValue;
+    private bool looped = false;
 
-    public CounterScript(int MinimalValue, int MaximalValue, int IncrementialValue, int InitialValue)
+    public CounterScript(int minimalValue, int maximalValue, int incrementialValue, int initialValue)
     {
-        Counter = InitialValue;
-        CounterMin = MinimalValue;
-        CounterMax = MaximalValue;
-        Increment = IncrementialValue;
-        StartingValue = InitialValue;
+        counter = initialValue;
+        counterMin = minimalValue;
+        counterMax = maximalValue;
+        increment = incrementialValue;
+        startingValue = initialValue;
     }
 
-    public CounterScript(int InitialValue, int LiminalValue, int IncrementialValue)
+    public CounterScript(int initialValue, int liminalValue, int incrementialValue)
     {
-        Counter = InitialValue;
-        if (Increment >= 0) {
-            CounterMin = InitialValue;
-            CounterMax = LiminalValue;
+        counter = initialValue;
+        increment = incrementialValue;
+        if (increment >= 0) {
+            counterMin = initialValue;
+            counterMax = liminalValue;
         } else {
-            CounterMin = LiminalValue;
-            CounterMax = InitialValue;
+            counterMin = liminalValue;
+            counterMax = initialValue;
         }
-        Increment = IncrementialValue;
-        StartingValue = InitialValue;
+        startingValue = initialValue;
+    }
+
+    public CounterScript(int initialValue, int incrementialValue)
+    {
+        counter = initialValue;
+        increment = incrementialValue;
+        if (increment >= 0) {
+            counterMin = int.MinValue;
+            counterMax = int.MaxValue;
+        } else {
+            counterMin = int.MaxValue;
+            counterMax = int.MinValue;
+        }
+        startingValue = initialValue;
     }
 
     public int Get()
     {
-        int Temporary = Counter;
-        Counter += Increment;
-        if (Increment >= 0) {
-            if (Counter > CounterMax) {
-                Counter = CounterMin;
-                Looped = true;
+        int temporary = counter;
+        counter += increment;
+        if (increment >= 0) {
+            if (counter > counterMax) {
+                counter = counterMin;
+                looped = true;
             }
         } else {
-            if (Counter < CounterMin) {
-                Counter = CounterMax;
-                Looped = true;
+            if (counter < counterMin) {
+                counter = counterMax;
+                looped = true;
             }
         }
-        return Temporary;
+        return temporary;
     }
 
     public void Reset()
     {
-        Counter = StartingValue;
-        Looped = false;
+        counter = startingValue;
+        looped = false;
     }
 
     public bool HasLooped()
     {
-        return Looped;
+        return looped;
     }
 }
